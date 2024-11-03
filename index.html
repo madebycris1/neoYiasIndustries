@@ -1,5 +1,3 @@
-html
-Copy code
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +21,7 @@ Copy code
       justify-content: center;
       align-items: center;
       border-radius: 50%; /* Round button */
-      background-color: rgba(0, 0, 0, 0); /* Transparent background */
+      background-color: rgba(0, 0, 0, 0); /* Transparent background for the button */
     }
     #microphone-icon {
       width: 40px;
@@ -41,9 +39,8 @@ Copy code
   <!-- VAPI Voice Assistant Script -->
   <script>
     var vapiInstance = null;
-
-    const assistant = "5eb99118-0f99-48e6-84eb-8d79b2417211"; // <--- Replace with your Assistant ID
-    const apiKey = "d7fe5ab5-12dc-4670-a06a-7d47e583db39"; // <--- Replace with your VAPI API Key
+    const assistant = "5eb99118-0f99-48e6-84eb-8d79b2417211"; // Your Assistant ID
+    const apiKey = "d7fe5ab5-12dc-4670-a06a-7d47e583db39"; // Your VAPI API Key
 
     // Custom button configuration
     const buttonConfig = {
@@ -68,13 +65,13 @@ Copy code
 
       g.onload = function () {
         vapiInstance = window.vapiSDK.run({
-          apiKey: apiKey, // <-- Replace with your VAPI Public API Key
-          assistant: assistant, // <-- Replace with your Assistant ID
+          apiKey: apiKey,
+          assistant: assistant,
           container: document.getElementById('vapi-assistant-container'),
           config: buttonConfig, // Apply custom buttonConfig
         });
 
-        // Event listeners for debugging (optional)
+        // Event listeners for debugging
         vapiInstance.on('speech-start', () => console.log('Speech has started'));
         vapiInstance.on('speech-end', () => console.log('Speech has ended'));
         vapiInstance.on('call-start', () => console.log('Call has started'));
