@@ -1,0 +1,94 @@
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embedded VAPI Voice Assistant</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: transparent; /* Transparent background */
+    }
+    #vapi-assistant-container {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%; /* Round button */
+      background-color: rgba(0, 0, 0, 0); /* Transparent background */
+    }
+    #microphone-icon {
+      width: 40px;
+      height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VAPI Assistant Button Container -->
+  <div id="vapi-assistant-container">
+    <img id="microphone-icon" src="https://unpkg.com/lucide-static@0.321.0/icons/mic.svg" alt="Assistant Button">
+  </div>
+
+  <!-- VAPI Voice Assistant Script -->
+  <script>
+    var vapiInstance = null;
+
+    const assistant = "5eb99118-0f99-48e6-84eb-8d79b2417211"; // <--- Replace with your Assistant ID
+    const apiKey = "d7fe5ab5-12dc-4670-a06a-7d47e583db39"; // <--- Replace with your VAPI API Key
+
+    // Custom button configuration
+    const buttonConfig = {
+      idle: {
+        icon: `https://unpkg.com/lucide-static@0.321.0/icons/mic.svg`, // Microphone icon for idle state
+      },
+      loading: {
+        icon: `https://unpkg.com/lucide-static@0.321.0/icons/loader-2.svg`, // Loader icon for loading state
+      },
+      active: {
+        icon: `https://unpkg.com/lucide-static@0.321.0/icons/mic.svg`, // Microphone icon for active state
+      },
+    };
+
+    (function (d, t) {
+      var g = document.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+
+      g.onload = function () {
+        vapiInstance = window.vapiSDK.run({
+          apiKey: apiKey, // <-- Replace with your VAPI Public API Key
+          assistant: assistant, // <-- Replace with your Assistant ID
+          container: document.getElementById('vapi-assistant-container'),
+          config: buttonConfig, // Apply custom buttonConfig
+        });
+
+        // Event listeners for debugging (optional)
+        vapiInstance.on('speech-start', () => console.log('Speech has started'));
+        vapiInstance.on('speech-end', () => console.log('Speech has ended'));
+        vapiInstance.on('call-start', () => console.log('Call has started'));
+        vapiInstance.on('call-end', () => console.log('Call has stopped'));
+        vapiInstance.on('volume-level', (volume) => console.log(`Assistant volume level: ${volume}`));
+        vapiInstance.on('message', (message) => console.log(message));
+        vapiInstance.on('error', (e) => console.error(e));
+      };
+
+      g.onerror = function () {
+        console.error("Failed to load VAPI script. Please check the script URL or try again later.");
+      };
+    })(document, "script");
+  </script>
+
+</body>
+</html>
